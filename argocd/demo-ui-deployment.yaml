@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: jbergfeld/hello-k8s:b6.20210325.162124
+        image: jbergfeld/hello-k8s:latest
         ports:
         - containerPort: 8080
       imagePullSecrets:
