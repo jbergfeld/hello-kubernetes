@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-app
+spec:
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+      - name: demo
+        image: jbergfeld/hello-k8s:latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: dockerhub-creds
