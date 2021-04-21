@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: harbor.tools.pez.aws.grogscave.net/e2e-workshop-w02-s032/hello-kubernetes:b1.20210421.161524
+        image: harbor.tools.pez.aws.grogscave.net/e2e-workshop-w02-s032/hello-kubernetes:b3.20210421.171033
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
