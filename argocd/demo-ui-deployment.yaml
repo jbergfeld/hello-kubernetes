@@ -13,9 +13,10 @@ spec:
     spec:
       containers:
       - name: demo
-        image: harbor.tools.pez.aws.grogscave.net/e2e-workshop-w02-s094/hello-kubernetes:b1.20210506.152121
+        image: harbor.tools.pez.aws.grogscave.net/e2e-workshop-w02-s253/hello-kubernetes:b1.20210613.205524
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
       imagePullSecrets:
       - name: dockerhub-creds
+
