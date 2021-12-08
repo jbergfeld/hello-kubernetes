@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: harbor.amer.end2end.link/e2e-workshop-w01-s209/hello-kubernetes:b1.20211208.190043
+        image: harbor.amer.end2end.link/e2e-workshop-w01-s209/hello-kubernetes:b2.20211208.200826
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
