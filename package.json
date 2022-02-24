@@ -2,7 +2,7 @@
   "name": "hello-kubernetes",
   "version": "1.9.0",
   "description": "Hello Kubernetes!",
-  "author": "Paul Bouwer",
+  "author": "TAP Demo",
   "license": "MIT",
   "main": "server.js",
   "scripts": {
