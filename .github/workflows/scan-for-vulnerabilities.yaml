@@ -1,0 +1,48 @@
+name: "When updates are pushed or the defined schedule is triggered, scan the container and application for vulnerabilities"
+
+on:
+
+  push:
+
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+
+  scan-and-report-vulnerabilities:
+    
+    runs-on: ubuntu-latest
+
+    env:
+      CONTAINER_REGISTRY: docker.io
+      CONTAINER_IMAGE: paulbouwer/hello-kubernetes
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build image and version variables
+        run: |
+          echo "IMAGE=$CONTAINER_REGISTRY/$CONTAINER_IMAGE" >> $GITHUB_ENV
+          echo "IMAGE_VERSION=$(cat src/app/package.json | jq -r .version)" >> $GITHUB_ENV
+          
+      - name: Build image
+        run: | 
+          docker build --tag "$IMAGE:$IMAGE_VERSION" \
+            --build-arg IMAGE_VERSION="$IMAGE_VERSION" \
+            --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
+            --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" \
+            --file src/app/Dockerfile src/app
+            
+      - name: Run Trivy vulnerability scanner
+        run: |
+          curl -L https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz | tar xvzf - contrib trivy
+          chmod 755 trivy
+          mv trivy /usr/local/bin/trivy
+          trivy image --format template --template "@contrib/sarif.tpl" --output trivy-results.sarif $IMAGE:$IMAGE_VERSION
+
+      - name: Upload container results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: trivy-results.sarif
