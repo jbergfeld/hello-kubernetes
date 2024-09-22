@@ -1,2 +1,2 @@
 name: hello-kubernetes
-image: <+artifact.metadata.SHA>
+image: <+artifact.image>
