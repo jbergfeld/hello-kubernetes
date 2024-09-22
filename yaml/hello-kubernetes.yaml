@@ -26,6 +26,6 @@ spec:
     spec:
       containers:
       - name: hello-kubernetes
-        image: jonsimages/harness
+        image: {{.Values.image}}
         ports:
         - containerPort: 8080
