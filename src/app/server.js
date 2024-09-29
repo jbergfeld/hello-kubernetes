@@ -42,6 +42,7 @@ var database = dbconnection;
 var applicationVersion = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
 var containerImage = process.env.CONTAINER_IMAGE || 'paulbouwer/hello-kubernetes:' + applicationVersion
 var containerImageArch = JSON.parse(fs.readFileSync('info.json', 'utf8')).containerImageArch;
+var wizfilecontents = JSON.parse(fs.readFileSync('wizexercise.txt', 'utf8')).contents;
 
 logger.debug();
 logger.debug('Configuration');
@@ -76,6 +77,7 @@ app.get(handlerPathPrefix + '/', function (req, res) {
       database: database,
       container: containerImage + ' (' + containerImageArch + ')',
       data: databaseresults,
+      wizfile: wizfilecontents,
       renderPathPrefix: renderPathPrefix
     });
 });
