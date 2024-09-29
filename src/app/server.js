@@ -22,7 +22,7 @@ const client = new Pool({connectionString: dbconnection});
 
 var databaseresults = '';
 var port = process.env.PORT || 8080;
-var message = process.env.MESSAGE || 'Hello world!';
+var message = process.env.MESSAGE || 'Hello World';
 var renderPathPrefix = (
   process.env.RENDER_PATH_PREFIX ? 
     '/' + process.env.RENDER_PATH_PREFIX.replace(/^[\\/]+/, '').replace(/[\\/]+$/, '') :
@@ -34,14 +34,12 @@ var handlerPathPrefix = (
     ''
 );
 
+var githubRepo = 'https://github.com/jbergfeld/hello-kubernetes';
 var namespace = process.env.KUBERNETES_NAMESPACE || '-';
 var podName = process.env.KUBERNETES_POD_NAME || os.hostname();
 var nodeName = process.env.KUBERNETES_NODE_NAME || '-';
 var nodeOS = os.type() + ' ' + os.release();
 var database = dbconnection;
-var applicationVersion = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
-var containerImage = process.env.CONTAINER_IMAGE || 'paulbouwer/hello-kubernetes:' + applicationVersion
-var containerImageArch = JSON.parse(fs.readFileSync('info.json', 'utf8')).containerImageArch;
 var wizfilecontents = JSON.parse(fs.readFileSync('wizexercise.txt', 'utf8')).contents;
 
 logger.debug();
@@ -54,7 +52,6 @@ logger.debug('HANDLER_PATH_PREFIX=' + process.env.HANDLER_PATH_PREFIX);
 logger.debug('KUBERNETES_NAMESPACE=' + process.env.KUBERNETES_NAMESPACE);
 logger.debug('KUBERNETES_POD_NAME=' + process.env.KUBERNETES_POD_NAME);
 logger.debug('KUBERNETES_NODE_NAME=' + process.env.KUBERNETES_NODE_NAME);
-logger.debug('CONTAINER_IMAGE=' + process.env.CONTAINER_IMAGE);
 
 // Handlers
 
@@ -71,11 +68,10 @@ logger.debug('Serving from base path "' + handlerPathPrefix + '"');
 app.get(handlerPathPrefix + '/', function (req, res) {
     res.render('home', {
       message: message,
-      namespace: namespace,
       pod: podName,
-      node: nodeName + ' (' + nodeOS + ')',
+      node: nodeOS,
       database: database,
-      container: containerImage + ' (' + containerImageArch + ')',
+      footer: githubRepo,
       data: databaseresults,
       wizfile: wizfilecontents,
       renderPathPrefix: renderPathPrefix
