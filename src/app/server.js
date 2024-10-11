@@ -22,7 +22,7 @@ const client = new Pool({connectionString: dbconnection});
 
 var databaseresults = '';
 var port = process.env.PORT || 8080;
-var message = process.env.MESSAGE || 'Hello World';
+var message = process.env.MESSAGE || 'Hello new World';
 var renderPathPrefix = (
   process.env.RENDER_PATH_PREFIX ? 
     '/' + process.env.RENDER_PATH_PREFIX.replace(/^[\\/]+/, '').replace(/[\\/]+$/, '') :
